@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BuyEasy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>BuyEasy</h1>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="create-customer.html">Create Customer</a>
+        <a href="customer-list.html">Customer</a>
+        <a href="products.html">Product</a>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <h2>Customers List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="customerTableBody">
+                <!-- Customers will be loaded here -->
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<script>
+window.onload = function() {
+    fetch('http://localhost:8080/customers')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('customerTableBody');
+            tbody.innerHTML = '';
+            data.forEach((customer, index) => {
+                const row = `<tr>
+                    <td>${index + 1}</td>
+                    <td>${customer.name}</td>
+                    <td>${customer.mobile}</td>
+                    <td>${customer.email}</td>
+                    <td>${customer.address}</td>
+                    <td><button class="delete-btn">View Orders</button></td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        });
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BuyEasy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>OrderEase<span style="color: #3498db;">.</span></h1>
+    <nav>
+        <a href="home.html">HOME</a>
+        <a href="create-customer.html">CREATE CUSTOMER</a>
+        <a href="customer-list.html">CUSTOMER</a>
+        <a href="products.html">PRODUCT</a>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <h2>Select Products</h2>
+        <div class="form-inline">
+            <input type="text" id="orderProductName" placeholder="Product Name">
+            <input type="number" id="orderProductQty" placeholder="Qty">
+            <button onclick="addOrderProduct()">Add</button>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin: 10px 0;">
+            <h3>Total Amount: <span id="totalAmount">0</span></h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>SNo</th>
+                    <th>Product Name</th>
+                    <th>Qty</th>
+                    <th>MRP</th>
+                    <th>Price</th>
+                    <th>Value</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="orderTableBody">
+                <!-- Order products will appear here -->
+            </tbody>
+        </table>
+    </section>
+
+    <section style="margin-top: 2rem;">
+        <h2>Customer Details</h2>
+        <div class="form-inline">
+            <input type="text" id="customerInfo" placeholder="Mobile Number or Email Id">
+            <button onclick="placeOrder()">Place Order</button>
+        </div>
+    </section>
+</main>
+
+<script>
+let orderProducts = [];
+
+// Dummy product database (you can later replace it with API call)
+const productDB = [
+    { name: 'Milk', unit: 100, mrp: 52, price: 50 },
+    { name: 'Pen', unit: 22, mrp: 50, price: 45 }
+];
+
+function addOrderProduct() {
+    const name = document.getElementById('orderProductName').value;
+    const qty = parseInt(document.getElementById('orderProductQty').value);
+
+    const product = productDB.find(p => p.name.toLowerCase() === name.toLowerCase());
+
+    if (product && qty > 0) {
+        const value = qty * product.price;
+        orderProducts.push({ name: product.name, qty, unit: product.unit, mrp: product.mrp, price: product.price, value });
+        renderOrderProducts();
+        clearOrderForm();
+    } else {
+        alert('Invalid product name or quantity.');
+    }
+}
+
+function renderOrderProducts() {
+    const tbody = document.getElementById('orderTableBody');
+    tbody.innerHTML = '';
+    let total = 0;
+
+    orderProducts.forEach((item, index) => {
+        total += item.value;
+        const row = `<tr>
+            <td>${index + 1}</td>
+            <td>${item.name}</td>
+            <td>${item.qty}</td>
+            <td>${item.unit}</td>
+            <td>${item.mrp}</td>
+            <td>${item.price}</td>
+            <td>${item.value}</td>
+            <td><button class="delete-btn" onclick="removeOrderProduct(${index})">Delete</button></td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+
+    document.getElementById('totalAmount').innerText = total;
+}
+
+function removeOrderProduct(index) {
+    orderProducts.splice(index, 1);
+    renderOrderProducts();
+}
+
+function clearOrderForm() {
+    document.getElementById('orderProductName').value = '';
+    document.getElementById('orderProductQty').value = '';
+}
+
+function placeOrder() {
+    const customerInfo = document.getElementById('customerInfo').value;
+
+    if (!customerInfo || orderProducts.length === 0) {
+        alert('Please add products and customer details.');
+        return;
+    }
+
+    const order = {
+        customer: customerInfo,
+        products: orderProducts,
+        totalAmount: parseInt(document.getElementById('totalAmount').innerText)
+    };
+
+    console.log('Order Placed:', order);
+    alert('Order placed successfully!');
+
+    // TODO: You can send 'order' object to backend server using fetch if needed
+    // fetch('http://localhost:8080/orders', {...})
+}
+</script>
+
+</body>
+</html>

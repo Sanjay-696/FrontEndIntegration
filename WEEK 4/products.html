@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BuyEasy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>BuyEasy</h1>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="create-customer.html">Create Customer</a>
+        <a href="customer-list.html">Customer</a>
+        <a href="products.html">Product</a>
+    </nav>
+</header>
+
+<main>
+    <section>
+        <h2>Add Products</h2>
+        <div class="form-inline">
+            <input type="text" id="productName" placeholder="Product Name">
+            <input type="number" id="productUnit" placeholder="Unit">
+            <input type="number" id="productMRP" placeholder="MRP">
+            <input type="number" id="productPrice" placeholder="Price">
+            <input type="number" id="productTax" placeholder="Tax">
+            <button onclick="addProduct()">Create</button>
+        </div>
+
+        <h3>Product List</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Product Name</th>
+                    <th>Unit</th>
+                    <th>MRP</th>
+                    <th>Price</th>
+                    <th>Tax</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody">
+                <!-- Products will appear here -->
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<script>
+let products = [];
+
+function addProduct() {
+    const name = document.getElementById('productName').value;
+    const unit = document.getElementById('productUnit').value;
+    const mrp = document.getElementById('productMRP').value;
+    const price = document.getElementById('productPrice').value;
+    const tax = document.getElementById('productTax').value;
+
+    if (name && unit && mrp && price && tax) {
+        products.push({ name, unit, mrp, price, tax });
+        renderProducts();
+        clearForm();
+    } else {
+        alert("Please fill all fields");
+    }
+}
+
+function renderProducts() {
+    const tbody = document.getElementById('productTableBody');
+    tbody.innerHTML = '';
+    products.forEach((product, index) => {
+        const row = `<tr>
+            <td>${index + 1}</td>
+            <td>${product.name}</td>
+            <td>${product.unit}</td>
+            <td>${product.mrp}</td>
+            <td>${product.price}</td>
+            <td>${product.tax}</td>
+            <td><button class="delete-btn" onclick="removeProduct(${index})">Delete</button></td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+}
+
+function removeProduct(index) {
+    products.splice(index, 1);
+    renderProducts();
+}
+
+function clearForm() {
+    document.getElementById('productName').value = '';
+    document.getElementById('productUnit').value = '';
+    document.getElementById('productMRP').value = '';
+    document.getElementById('productPrice').value = '';
+    document.getElementById('productTax').value = '';
+}
+</script>
+
+</body>
+</html>

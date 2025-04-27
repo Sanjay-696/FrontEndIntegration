@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BuyEasy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h1>BuyEasy</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="create-customer.html">Create Customer</a>
+      <a href="customer-list.html">Customer</a>
+      <a href="products.html">Product</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main-content">
+  
+  <section class="product-selection">
+    <h2>Select Products</h2>
+    <input type="text" placeholder="Product Name">
+    <input type="number" placeholder="Qty">
+    <button>Add</button>
+  </section>
+
+  <section class="product-table">
+    <table>
+      <thead>
+        <tr>
+          <th>SNo</th>
+          <th>Product Name</th>
+          <th>Qty</th>
+          <th>Unit</th>
+          <th>MRP</th>
+          <th>Price</th>
+          <th>Value</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="8" style="text-align: center;">No data available in table</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="table-footer">
+      <span>Total Amount: <strong>0</strong></span>
+      <input type="text" placeholder="Search">
+    </div>
+  </section>
+
+  <section class="customer-details">
+    <h2>Customer Details</h2>
+    <input type="text" placeholder="Mobile Number or Email Id">
+    <button>Place Order</button>
+  </section>
+
+</main>
+
+</body>
+</html>
